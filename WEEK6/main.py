@@ -88,15 +88,25 @@ class Playground:
             all_u = []
             all_traj = []
             best_traj = None
+            
             if self.vplanner_midpos_index >= 0:
                 midpos = self.planning_path[self.vplanner_midpos_index]
+                print("running_dwa")
+                print(self.x, self.y)
+                print(midpos)
+                
                 [self.vx,self.vw],best_traj,all_traj,all_u = dwa.plan([self.x,self.y,self.theta,self.vx,self.vw],self.dwaconfig,midpos,self.planning_obs)
+                print("dwa_once")
+                #print("all_traj",np.shape(all_traj))    
+                        
             else:
                 self.vx,self.vw = 0.0,0.0
             
             dx,dy,dw = self.vx*self.dt, 0, self.vw*self.dt
             T = transformation_matrix(self.x, self.y, self.theta)
             p = np.matmul(T,np.array([dx,dy,1]))
+            print("get-x")
+            print("get-y")
             self.x = p[0]
             self.y = p[1]
             self.theta += dw
@@ -141,7 +151,6 @@ class Playground:
 
         if self.planning_target is not None:
             self.ax.plot(self.planning_target[0],self.planning_target[1],"r*",markersize=20)
-
         if len(all_traj) > 0:
             all_value = np.array(all_value,dtype=float)
             all_value = (all_value-all_value.min())/(all_value.max()-all_value.min())
@@ -191,7 +200,7 @@ class Playground:
                 self.planning_path = None
                 self.x_traj,self.y_traj = [],[]
                 self.vplanner_midpos_index = None
-                px,py = planner.planning(self.planning_obs[:,0],self.planning_obs[:,1],self.x,self.y,self.planning_target[0],self.planning_target[1],-10,-10,10,10)
+                px,py = planner.planning(self.planning_obs[:,0],self.planning_obs[:,1],self.x,self.y,self.planning_target[0],self.planning_target[1],-5,-5,5,5)
                 px,py = px.tolist(),py.tolist()
                 px.reverse(),py.reverse()
                 self.planning_path = np.vstack([px,py]).T

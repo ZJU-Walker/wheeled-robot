@@ -28,14 +28,14 @@ class RRTPlanner:
         self.min_y = min_y
         self.max_x = max_x
         self.max_y = max_y
-        self.Iter = 5000
+        self.Iter = 7000
         self.path = None
 
         self.start = Node(self.start_x, self.start_y, None)
         self.target = Node(self.target_x, self.target_y, None)
 
         self.node_list = [self.start] # 存储路径
-        self.step = 0.2 # 步长
+        self.step = 0.7 # 步长
         self.obs = np.array([obs_x,obs_y]).T #转成二维数组obs坐标
         self.px = self.start_x
         self.py = self.start_y
