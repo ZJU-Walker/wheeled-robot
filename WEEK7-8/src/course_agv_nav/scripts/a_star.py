@@ -18,8 +18,8 @@ class AStarPlanner():
         print(obs)
 
         #create map
-        map_length=300
-        map_width=300
+        map_length=100
+        map_width=100
         pixel_length=(maxy-miny)/map_length
         pixel_width=(maxx-minx)/map_width
         map=np.zeros([map_length,map_length])
@@ -108,8 +108,8 @@ class AStarPlanner():
             current_y=former_y
         path_list_x.append(start_pixel_x)
         path_list_y.append(start_pixel_y)
-        path_list_x.reverse()
-        path_list_y.reverse()
+        # path_list_x.reverse()
+        # path_list_y.reverse()
 
         #还原回原图坐标
         path_list_x_r=[]
