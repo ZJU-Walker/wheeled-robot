@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import math
 import numpy as np
@@ -8,7 +8,7 @@ from nav_msgs.msg import Path
 from geometry_msgs.msg import PoseStamped,Twist
 from sensor_msgs.msg import LaserScan
 
-import dwa
+from dwap import dwa
 
 from threading import Lock,Thread
 import time
@@ -20,8 +20,37 @@ def limitVal(minV,maxV,v):
         return maxV
     return v
 
+class DWAconfig:
+    robot_radius = 0.25
+    def __init__(self):
+        self.obs_radius = 0.5
+        self.dt = 0.1  # [s] Time tick for motion prediction
+
+        self.max_speed = 1.0  # [m/s]
+        self.min_speed = -0.5  # [m/s]
+        self.max_accel = 1  # [m/ss]
+        self.v_reso = self.max_accel*self.dt/10.0  # [m/s]
+
+        self.max_yawrate = 100.0 * math.pi / 180.0  # [rad/s]
+        self.max_dyawrate = 100.0 * math.pi / 180.0  # [rad/ss]
+        self.yawrate_reso = self.max_dyawrate*self.dt/10.0  # [rad/s]
+
+        
+        self.predict_time = 2  # [s]
+
+        self.to_goal_cost_gain = 0.8
+        self.speed_cost_gain = 0.15
+        self.obstacle_cost_gain = 2.5
+
+        self.tracking_dist = self.predict_time*self.max_speed
+        self.arrive_dist = 0.1
+
+
+
+
 class LocalPlanner:
     def __init__(self):
+        self.dwaplanner = dwa()
         self.arrive = 0.1
         self.x = 0.0
         self.y = 0.0
@@ -30,7 +59,7 @@ class LocalPlanner:
         self.vw = 0.0
         # init plan_config for once
         self.laser_lock = Lock()
-        self.plan_config = dwa.Config()
+        self.plan_config = DWAconfig()
         c = self.plan_config
         self.threshold = c.max_speed*c.predict_time
 
@@ -133,7 +162,7 @@ class LocalPlanner:
         self.plan_x = [0.0,0.0,0.0,self.vx,self.vw]
         # Update obstacle
         self.updateObstacle()
-        u, _ = dwa.planning(self.plan_x,self.plan_config,self.plan_goal,self.plan_ob)
+        u = self.dwaplanner.plan(self.plan_x,self.plan_config,self.plan_goal,self.plan_ob)
         alpha = 0.5
         self.vx = u[0]*alpha+self.vx*(1-alpha)
         self.vw = u[1]*alpha+self.vw*(1-alpha)

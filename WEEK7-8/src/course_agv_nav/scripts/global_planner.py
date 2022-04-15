@@ -1,6 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
 import tf
+# import sys
 from nav_msgs.srv import GetMap
 from nav_msgs.msg import Path
 from geometry_msgs.msg import PoseStamped
