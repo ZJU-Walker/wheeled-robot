@@ -26,21 +26,21 @@ class DWAconfig:
         self.obs_radius = 0.5
         self.dt = 0.1  # [s] Time tick for motion prediction
 
-        self.max_speed = 4.0  # [m/s]
-        self.min_speed = -0.5  # [m/s]
-        self.max_accel = 4  # [m/ss]
+        self.max_speed = 1.0  # [m/s]
+        self.min_speed = -1.0  # [m/s]
+        self.max_accel = 2  # [m/ss]
         self.v_reso = self.max_accel*self.dt/10.0  # [m/s]
 
-        self.max_yawrate = 100.0 * math.pi / 180.0  # [rad/s]
-        self.max_dyawrate = 100.0 * math.pi / 180.0  # [rad/ss]
+        self.max_yawrate = 150.0 * math.pi / 180.0  # [rad/s]
+        self.max_dyawrate = 250.0 * math.pi / 180.0  # [rad/ss]
         self.yawrate_reso = self.max_dyawrate*self.dt/10.0  # [rad/s]
 
         
-        self.predict_time = 0.2  # [s]
+        self.predict_time = 1.0  # [s]
 
-        self.to_goal_cost_gain = 2.0
+        self.to_goal_cost_gain = 1.0
         self.speed_cost_gain = 0.40
-        self.obstacle_cost_gain = 2.0
+        self.obstacle_cost_gain = 2.5
 
         self.tracking_dist = self.predict_time*self.max_speed
         self.arrive_dist = 0.1
