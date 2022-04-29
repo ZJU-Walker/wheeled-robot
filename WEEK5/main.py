@@ -4,7 +4,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 #from  RRTPlanner import RRTPlanner
-from  planner import RRTplanner
+#from  planner import RRTplanner
+from  planner import astar
 # from planner import AStarPlanner,RRTPlanner
 
 plt.rcParams["figure.figsize"] = [8.0,8.0]
@@ -109,7 +110,8 @@ class Playground:
 if __name__ == "__main__":
     # planner = None
     # planner = AStarPlanner(0.2,1.5)
-    planner = RRTplanner.RRTPlanner(1.5)
+    # planner = RRTplanner.RRTPlanner(1.5)
+    planner = astar.AStarPlanner(0.2,1.5)
     pg = Playground(planner)
     pg.run()
 
