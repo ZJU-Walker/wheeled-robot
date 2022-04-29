@@ -38,9 +38,9 @@ class DWAconfig:
         
         self.predict_time = 1.0  # [s]
 
-        self.to_goal_cost_gain = 1.0
-        self.speed_cost_gain = 0.40
-        self.obstacle_cost_gain = 2.5
+        self.to_goal_cost_gain = 0.7
+        self.speed_cost_gain = 0.35
+        self.obstacle_cost_gain = 2.0
 
         self.tracking_dist = self.predict_time*self.max_speed
         self.arrive_dist = 0.1
