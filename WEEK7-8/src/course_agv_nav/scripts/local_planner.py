@@ -26,21 +26,21 @@ class DWAconfig:
         self.obs_radius = 0.5
         self.dt = 0.1  # [s] Time tick for motion prediction
 
-        self.max_speed = 1.0  # [m/s]
+        self.max_speed = 3.0 # [m/s]
         self.min_speed = -1.0  # [m/s]
-        self.max_accel = 2  # [m/ss]
+        self.max_accel = 8  # [m/ss]
         self.v_reso = self.max_accel*self.dt/10.0  # [m/s]
 
-        self.max_yawrate = 150.0 * math.pi / 180.0  # [rad/s]
-        self.max_dyawrate = 250.0 * math.pi / 180.0  # [rad/ss]
+        self.max_yawrate = 165.0 * math.pi / 180.0  # [rad/s]
+        self.max_dyawrate = 1600.0 * math.pi / 180.0  # [rad/ss]
         self.yawrate_reso = self.max_dyawrate*self.dt/10.0  # [rad/s]
 
         
-        self.predict_time = 1.0  # [s]
+        self.predict_time = 0.6  # [s]
 
-        self.to_goal_cost_gain = 0.7
-        self.speed_cost_gain = 0.35
-        self.obstacle_cost_gain = 2.0
+        self.to_goal_cost_gain = 0.8
+        self.speed_cost_gain = 0.2
+        self.obstacle_cost_gain = 2.7
 
         self.tracking_dist = self.predict_time*self.max_speed
         self.arrive_dist = 0.1
@@ -122,7 +122,7 @@ class LocalPlanner:
         pass
     def pathCallback(self,msg):
         self.need_exit = True
-        time.sleep(0.1)
+        time.sleep(0.01)
         self.path = msg
         self.planner_thread = Thread(target=self.planThreadFunc)
         self.initPlanning()
